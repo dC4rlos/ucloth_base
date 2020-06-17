@@ -4,6 +4,8 @@ add_library(ucloth STATIC
     world.cpp
     pbdsimulation.hpp
     pbdsimulation.cpp
+    constraint.hpp
+    constraint.cpp
 )
 
 target_link_libraries(ucloth

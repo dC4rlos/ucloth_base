@@ -1,6 +1,7 @@
 #ifndef UCLOTH_WORLD_H_
 #define UCLOTH_WORLD_H_
 
+#include <constraint.hpp>
 #include <umath.hpp>
 #include <uclothcommon.hpp>
 #include <vector>
@@ -15,6 +16,7 @@ namespace ucloth{
 
             // Relations between particles
             std::vector<Attachment> attachments;
+            std::vector<DistanceConstraint> distanceConstraints;
 
             //Meshes
             std::vector<Mesh> meshes;

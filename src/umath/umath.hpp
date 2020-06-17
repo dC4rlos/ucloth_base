@@ -2,6 +2,7 @@
 #define UCLOTH_MATH_H_
 
 #include <glm/glm.hpp>
+#include <cmath>
 
 namespace ucloth
 {

@@ -113,5 +113,19 @@ namespace ucloth{
             }
             std::copy(m_positionEstimates.begin(), m_positionEstimates.end(), positions.begin());
         }
+
+        void PBDSimulation::projectDistanceConstraints(std::vector<DistanceConstraint> const& constraints, std::vector<umath::Real> const& inverseMasses, size_t const solverIterations){
+            for (auto const& constraint : constraints){
+                umath::Position& p1 = m_positionEstimates[constraint.p1];
+                umath::Position& p2 = m_positionEstimates[constraint.p2];
+
+                umath::Real const w1 = inverseMasses[constraint.p1];
+                umath::Real const w2 = inverseMasses[constraint.p2];
+
+                umath::Real const C = umath::length(p1 - p2) - constraint.distance;
+                umath::Vec3 const n = umath::normalize(p1 - p2);
+                umath::Vec3 const deltaP1 = (-n) * w1 * C / (w1 + w1);
+            }
+        }
     } // namespace simulation
 } // namespace ucloth

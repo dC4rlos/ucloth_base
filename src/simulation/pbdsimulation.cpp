@@ -1,4 +1,6 @@
 #include "pbdsimulation.hpp"
+
+#include <algorithm>
 #include <numeric>
 #include <variant>
 
@@ -11,9 +13,11 @@ namespace ucloth{
             solveAttachments(world.attachments);
             ignoreAttachmentMasses(world.attachments, world.inverseMasses);
             for(size_t iteration = 0; iteration < solverIterations; ++iteration){
-                //Fill
+                // Fill
+                solveAttachments(world.attachments);
             }
             restoreAttachmentMasses(world.attachments, world.inverseMasses);
+            returnResultsToWorld(deltaTime, world.positions, world.velocities);
         }
 
         void PBDSimulation::applyExternalAccelerations(std::vector<umath::Vec3> const& externalAccelerations, umath::Real const deltaTime, std::vector<umath::Vec3>& velocities) const{
@@ -100,6 +104,14 @@ namespace ucloth{
             for (auto const& attachment : attachments){
                 inverseMasses[attachment.p] = attachment.originalInverseMass;
             }
+        }
+
+        void PBDSimulation::returnResultsToWorld(umath::Real const deltaTime, std::vector<umath::Position>& positions, std::vector<umath::Vec3>& velocities) const{
+            size_t const nParticles = positions.size();
+            for (Particle p = 0; p < nParticles; ++p){
+                velocities[p] = (m_positionEstimates[p] - positions[p] / deltaTime);
+            }
+            std::copy(m_positionEstimates.begin(), m_positionEstimates.end(), positions.begin());
         }
     } // namespace simulation
 } // namespace ucloth

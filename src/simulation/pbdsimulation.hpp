@@ -10,9 +10,9 @@ namespace ucloth{
             public:
                 void simulate(umath::Real const deltaTime, size_t const solverIterations, World& world);
             private:
-                void applyExternalAccelerations(std::vector<umath::Vec3> const& externalAccelerations, umath::Real const deltaTime, std::vector<umath::Vec3>& velocities);
-                void dampVelocities(std::vector<Mesh> const& meshes, std::vector<umath::Position> const& positions, std::vector<umath::Real> const& inverseMasses, std::vector<umath::Vec3>& velocities);
-                
+                void applyExternalAccelerations(std::vector<umath::Vec3> const& externalAccelerations, umath::Real const deltaTime, std::vector<umath::Vec3>& velocities) const;
+                void dampVelocities(std::vector<Mesh> const& meshes, std::vector<umath::Position> const& positions, std::vector<umath::Real> const& inverseMasses, std::vector<umath::Vec3>& velocities) const ;
+                void createPositionEstimates(std::vector<umath::Position> const& positions, std::vector<umath::Vec3> const& velocities, umath::Real  const deltaTime);
             private:     
                 std::vector<umath::Position> m_positionEstimates;
         };

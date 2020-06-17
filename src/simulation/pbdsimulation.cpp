@@ -4,10 +4,12 @@
 namespace ucloth{
     namespace simulation{
         void PBDSimulation::simulate(umath::Real const deltaTime, size_t const solverIterations, World& world){
-
+            applyExternalAccelerations(world.accelerations, deltaTime, world.velocities);
+            dampVelocities(world.meshes, world.positions, world.inverseMasses, world.velocities);
+            createPositionEstimates(world.positions, world.velocities, deltaTime);
         }
 
-        void PBDSimulation::applyExternalAccelerations(std::vector<umath::Vec3> const& externalAccelerations, umath::Real const deltaTime, std::vector<umath::Vec3>& velocities){
+        void PBDSimulation::applyExternalAccelerations(std::vector<umath::Vec3> const& externalAccelerations, umath::Real const deltaTime, std::vector<umath::Vec3>& velocities) const{
             for(auto const& acceleration : externalAccelerations){
                 for(auto& velocity : velocities){
                     velocity += acceleration * deltaTime;
@@ -15,8 +17,8 @@ namespace ucloth{
             }
         }
 
-         void PBDSimulation::dampVelocities(std::vector<Mesh> const& meshes, std::vector<umath::Position> const& positions, std::vector<umath::Real> const& inverseMasses, std::vector<umath::Vec3>& velocities){
-             for(auto const& mesh : meshes){
+        void PBDSimulation::dampVelocities(std::vector<Mesh> const& meshes, std::vector<umath::Position> const& positions, std::vector<umath::Real> const& inverseMasses, std::vector<umath::Vec3>& velocities) const{
+            for(auto const& mesh : meshes){
                 // TODO: optimaze mass calculations
                 // Total mass
                 umath::Real const totalMass = 
@@ -60,5 +62,13 @@ namespace ucloth{
                 }
             }
          }
+
+        void PBDSimulation::createPositionEstimates(std::vector<umath::Position> const& positions, std::vector<umath::Vec3> const& velocities, umath::Real  const deltaTime){
+            size_t const nParticles = positions.size();
+            m_positionEstimates.resize(nParticles); // Me da error aqui****
+            for(Particle p = 0; p < nParticles; ++p){
+                m_positionEstimates[p] = positions[p] + velocities[p] * deltaTime;
+            }
+        }
     } // namespace simulation
 } // namespace ucloth

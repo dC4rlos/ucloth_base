@@ -3,7 +3,7 @@
 
 #include <array>
 #include <cstdint>
-#include <umath/umath.hpp>
+#include <umath.hpp>
 #include <utility>
 #include <vector>
 #include <variant>

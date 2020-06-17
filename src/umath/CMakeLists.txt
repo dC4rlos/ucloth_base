@@ -7,4 +7,4 @@ target_link_libraries(umath
     PUBLIC glm
 )
 
-target_include_directories(umath PUBLIC ../)
+target_include_directories(umath PUBLIC .)

@@ -31,5 +31,10 @@ namespace ucloth{
             meshes.push_back(std::move(copy));
             // TODO: add constraints to mesh.
         }
+
+        void World::attachParticle(Mesh const& mesh, Particle particle, umath::Position const& position){
+            Particle pInWorld = mesh.begin + particle;
+            attachments.push_back(std::move(Attachment{pInWorld, inverseMasses[pInWorld], position}));
+        }
     } //namespace simulation
 } //namespace ucloth

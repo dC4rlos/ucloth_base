@@ -6,6 +6,7 @@
 #include <umath/umath.hpp>
 #include <utility>
 #include <vector>
+#include <variant>
 
 namespace ucloth{
     namespace simulation{
@@ -28,7 +29,15 @@ namespace ucloth{
             umath::Real kClothThickness;
             MeshType type;
         };
-    }
-}
+
+        struct Attachment
+        {
+            Particle p;
+            umath::Real originalInverseMass;
+            std::variant<Particle, umath::Position> destination;
+        };
+        
+    } // namespace simulation
+} // namespace ucloth
 
 #endif // !UCLOTH_UCLOTH_COMMON_H_

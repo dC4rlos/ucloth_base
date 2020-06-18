@@ -32,8 +32,8 @@ namespace ucloth{
             
 
             // TODO: add constraints to mesh.
+            //Distance constraint
             std::vector<Edge> edges;
-
             edges.reserve((mesh.end - mesh.begin) * 3);
             for(auto const& face : mesh.faces){
                  Edge const e0 = {face[0], face[1]};
@@ -62,6 +62,7 @@ namespace ucloth{
                 umath::Real const distance = umath::length(pos[edge.first] - pos[edge.second]);
                 distanceConstraints.push_back(DistanceConstraint{edge.first, edge.second, distance, elasticity});
             }
+            
             //Bending
         }
 

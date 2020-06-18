@@ -14,6 +14,7 @@ namespace ucloth{
             ignoreAttachmentMasses(world.attachments, world.inverseMasses);
             for(size_t iteration = 0; iteration < solverIterations; ++iteration){
                 // Fill
+                projectDistanceConstraints(world.distanceConstraints, world.inverseMasses, solverIterations);
                 solveAttachments(world.attachments);
             }
             restoreAttachmentMasses(world.attachments, world.inverseMasses);
@@ -124,7 +125,12 @@ namespace ucloth{
 
                 umath::Real const C = umath::length(p1 - p2) - constraint.distance;
                 umath::Vec3 const n = umath::normalize(p1 - p2);
-                umath::Vec3 const deltaP1 = (-n) * w1 * C / (w1 + w1);
+                umath::Vec3 const deltaP1 = (-n) * w1 * C / (w1 + w2);
+                umath::Vec3 const deltaP2 = (-n) * w2 * C / (w1 + w2);
+
+                umath::Real kPrime = 1 - powf(1 - constraint.stiffness, 1.0 / static_cast<umath::Real>(solverIterations));
+                p1 += kPrime * deltaP1;
+                p2 += kPrime * deltaP2;
             }
         }
     } // namespace simulation

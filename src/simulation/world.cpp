@@ -8,7 +8,7 @@ namespace ucloth{
             inverseMasses.reserve(nParticles);
         }
 
-        void World::addCloth(std::vector<umath::Position> const& pos, Mesh const& mesh, umath::Real const mass, umath::Real const elasticity/*, umath::Real bendingStiffness*/){
+        Mesh const& World::addCloth(std::vector<umath::Position> const& pos, Mesh const& mesh, umath::Real const mass, umath::Real const elasticity/*, umath::Real bendingStiffness*/){
             size_t const nNewParticles = pos.size();
             size_t const currentSize = positions.size();
             reserveForNParticles(currentSize + nNewParticles);
@@ -28,7 +28,7 @@ namespace ucloth{
                 face[2] += indexShift;
             }
             copy.type = MeshType::Cloth;
-            meshes.push_back(std::move(copy));
+            auto const& emplaceMesh = meshes.emplace_back(std::move(copy));
             
 
             // TODO: add constraints to mesh.
@@ -64,6 +64,10 @@ namespace ucloth{
             }
             
             //Bending
+
+
+            //return
+            return emplaceMesh;
         }
 
         void World::attachParticle(Mesh const& mesh, Particle particle, umath::Position const& position){

@@ -15,7 +15,7 @@ void ucloth_deleteWorld(WorldHandle world){
     delete worldPtr;
 }
 
-void ucloth_addAcceleration(WorldHandle world,  UclothVector3f acceleration){
+void ucloth_addAcceleration(WorldHandle world, UclothVector3f acceleration){
     auto* worldPtr = reinterpret_cast<ucloth::simulation::World*>(world);
     worldPtr -> accelerations.push_back({acceleration.x_, acceleration.y_, acceleration.z_});
 }

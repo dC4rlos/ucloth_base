@@ -45,7 +45,7 @@ ClothHandle ucloth_addCloth(WorldHandle handle, UclothVector3f* positions, size_
     mesh.faces.reserve(facesSize / 3);
 
     mesh.begin = worldPtr -> positions.size();
-    mesh.end =  mesh.begin + posSize;
+    mesh.end = mesh.begin + posSize;
     mesh.kClothThickness = 0; // Para colisiones
     mesh.kVelocity = damping;
     mesh.type = ucloth::simulation::MeshType::Cloth;

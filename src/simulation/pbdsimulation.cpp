@@ -86,7 +86,7 @@ namespace ucloth{
         void PBDSimulation::solveAttachments(std::vector<Attachment> const& attachments){
             for(auto const& attachment : attachments){
                 if(std::holds_alternative<Particle>(attachment.destination)){
-                    auto const destination = std::get<Particle>(attachment.destination);
+                    auto const& destination = std::get<Particle>(attachment.destination);
                     m_positionEstimates[attachment.p] = m_positionEstimates[destination];
                 } else{
                     auto const& destination = std::get<umath::Position>(attachment.destination);
@@ -110,7 +110,7 @@ namespace ucloth{
         void PBDSimulation::returnResultsToWorld(umath::Real const deltaTime, std::vector<umath::Position>& positions, std::vector<umath::Vec3>& velocities) const{
             size_t const nParticles = positions.size();
             for (Particle p = 0; p < nParticles; ++p){
-                velocities[p] = (m_positionEstimates[p] - positions[p] / deltaTime);
+                velocities[p] = (m_positionEstimates[p] - positions[p]) / deltaTime;
             }
             std::copy(m_positionEstimates.begin(), m_positionEstimates.end(), positions.begin());
         }
@@ -126,7 +126,7 @@ namespace ucloth{
                 umath::Real const C = umath::length(p1 - p2) - constraint.distance;
                 umath::Vec3 const n = umath::normalize(p1 - p2);
                 umath::Vec3 const deltaP1 = (-n) * w1 * C / (w1 + w2);
-                umath::Vec3 const deltaP2 = (-n) * w2 * C / (w1 + w2);
+                umath::Vec3 const deltaP2 = (n) * w2 * C / (w1 + w2);
 
                 umath::Real kPrime = 1 - powf(1 - constraint.stiffness, 1.0 / static_cast<umath::Real>(solverIterations));
                 p1 += kPrime * deltaP1;

@@ -77,7 +77,7 @@ namespace ucloth{
 
         void PBDSimulation::createPositionEstimates(std::vector<umath::Position> const& positions, std::vector<umath::Vec3> const& velocities, umath::Real  const deltaTime){
             size_t const nParticles = positions.size();
-            m_positionEstimates.resize(nParticles); // Me da error aqui****
+            m_positionEstimates.resize(nParticles); // Me daba error aqui****
             for(Particle p = 0; p < nParticles; ++p){
                 m_positionEstimates[p] = positions[p] + velocities[p] * deltaTime;
             }
